@@ -21,6 +21,8 @@ export function SignUpForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -45,10 +47,14 @@ export function SignUpForm({
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/protected`,
+          data: {
+              first_name: firstName,
+              last_name: lastName,
+      },
         },
       });
       if (error) throw error;
-      router.push("/auth/sign-up-success");
+      router.push("/home");
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
@@ -67,11 +73,32 @@ export function SignUpForm({
           <form onSubmit={handleSignUp}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
+                <Label htmlFor="fname">Name</Label>
+                <div className="grid grid-cols-2 gap-1">
+                <Input
+                  id="fname"
+                  type="text"
+                  placeholder="First Name"
+                  required
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                <Input
+                  id="lname"
+                  type="text"
+                  placeholder="Last Name"
+                  required
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+                </div>
+              </div>
+              <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="name@email.com"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
