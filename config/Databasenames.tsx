@@ -6,6 +6,9 @@ export const DatabaseTableNames = {
       DEGREE:'degree',
       SEMESTERS:'degreewisesemestermapping',
       SUBJECTS:'semesterwisesubjectmapping',
+    },
+    ACADEMICS:{
+      SESSIONS:'academic_sessions',
     }
   },
 } as const;
