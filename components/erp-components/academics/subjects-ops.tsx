@@ -41,6 +41,27 @@ export function AllAcademicSubjectsList() {
     setLoading(false);
   }
 
+    useEffect(() => {
+    if (!loading && sessions.length && semesters.length) {
+      const initialSessionsCollapse = Object.fromEntries(
+        sessions.map((sessions) => [sessions.academic_sessions_id, false])
+      );
+      setCollapsedSessions(initialSessionsCollapse);
+
+      const initialSemesterCollapse = Object.fromEntries(
+        semesters.map((semester) => [
+          sessionsSemesterKey(semester.academic_session_id, semester.academic_session_semesters_id),
+          true,
+        ])
+      );
+      setCollapsedSemesters(initialSemesterCollapse);
+    }
+  }, [loading, sessions, semesters]);
+
+  function sessionsSemesterKey(session: string, semesterId: string) {
+    return `${session}-${semesterId}`;
+  }
+
   const groupedData = useMemo(() => {
     return sessions.map(session => {
         const start = new Date(session.academic_sessions_start_date).getFullYear();
@@ -182,7 +203,7 @@ export function AllAcademicSubjectsList() {
             <div>
               <p className={`font-semibold text-sm ${isElective ? "text-red-700" : ""}`}>{subject.academic_session_semester_subjects_name}</p>
               <p className="text-xs opacity-50 font-mono">{subject.academic_session_semester_subjects_code}</p>
-              {isElective && <span className="inline-block mt-2 bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase">Elective</span>}
+              {isElective && <span className="inline-block mt-2 bg-red-600 text-white text-[10px] px-2 py-0.5 rounded font-bold uppercase">{isMapped?subject.academic_session_semester_subjects_category:`Elective`}</span>}
             </div>
             <div className="flex flex-col gap-2 opacity-40 hover:opacity-100">
               <button onClick={() => { 
@@ -213,7 +234,7 @@ export function AllAcademicSubjectsList() {
               {collapsedSessions[session.sessionId] ? <ChevronRight /> : <ChevronDown />}
               <div>
                 <h3 className="font-bold text-lg leading-none">{session.degreeName}</h3>
-                <p className="text-xs opacity-60 mt-1">Batch: {session.batch}</p>
+                <p className="text-sm opacity-70 mt-1">Batch: {session.batch}</p>
               </div>
             </div>
           </div>
@@ -228,9 +249,9 @@ export function AllAcademicSubjectsList() {
                 <div className="flex justify-between items-center px-6 py-4 bg-gray-100 dark:bg-zinc-900/50">
                   <div className="flex items-center gap-2 cursor-pointer" onClick={() => setCollapsedSemesters(prev => ({...prev, [semKey]: !isSemCollapsed}))}>
                     {isSemCollapsed ? <ChevronRight size={16}/> : <ChevronDown size={16}/>}
-                    <span className="font-bold text-zinc-600">Semester {sem.academic_session_semesters_number}</span>
+                    <span className="font-semibold text-zinc-700 dark:text-zinc-300">Semester {sem.academic_session_semesters_number}</span>
                   </div>
-                  <button className="flex items-center gap-2 bg-zinc-900 text-white px-4 py-1.5 rounded-lg text-xs font-medium hover:opacity-80 transition"
+                  <button className="flex items-center gap-2 bg-zinc-900 text-white dark:bg-zinc-100 dark:text-black px-4 py-1.5 rounded-lg text-xs font-medium hover:opacity-80 transition"
                           onClick={() => { setAddingKey(semKey); setAddData({ 
                             academic_session_semesters_id: sem.academic_session_semesters_id,
                             academic_session_id: session.sessionId,
