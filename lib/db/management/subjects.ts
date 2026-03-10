@@ -10,6 +10,7 @@ export interface Subjects {
   swsm_subject_code: string;
   swsm_subject_name: string;
   swsm_subject_category: string;
+  swsm_elective_set: string;
   swsm_subject_type: string;
   swsm_created_at: string;
   swsm_degree_name: string;
@@ -29,6 +30,7 @@ function flattenSubject(row: any): Subjects {
     swsm_subject_code: row.swsm_subject_code,
     swsm_subject_name: row.swsm_subject_name,
     swsm_subject_category: row.swsm_subject_category,
+    swsm_elective_set: row.swsm_elective_set,
     swsm_subject_type: row.swsm_subject_type,
     swsm_created_at: row.swsm_created_at,
     swsm_degree_name: row.degrees?.degree_fullname ?? "",
