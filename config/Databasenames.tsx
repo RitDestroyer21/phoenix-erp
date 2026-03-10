@@ -9,6 +9,7 @@ export const DatabaseTableNames = {
     },
     ACADEMICS:{
       SESSIONS:'academic_sessions',
+      SEMESTERS:'academic_session_semesters',
     }
   },
 } as const;
