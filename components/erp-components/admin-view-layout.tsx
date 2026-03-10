@@ -9,7 +9,19 @@ import { AllDegreesList } from "@/components/erp-components/management/degree-op
 import { AllSemestersList } from "@/components/erp-components/management/semester-ops";
 import { AllSubjectsList } from "@/components/erp-components/management/subjects-ops";
 
-type AdminView = "departments" | "degrees" | "semesters" | "subjects";
+/* ACADEMICS */
+import { AllAcademicSessionsList } from "@/components/erp-components/academics/sessions-ops";
+import { AllAcademicSemestersList } from "@/components/erp-components/academics/semesters-ops";
+import { AllAcademicSubjectsList } from "@/components/erp-components/academics/subjects-ops";
+
+type AdminView =
+  | "departments"
+  | "degrees"
+  | "semesters"
+  | "subjects"
+  | "academic_sessions"
+  | "academic_semesters"
+  | "academic_subjects";
 
 export function AdminLayout() {
   const [collapsed, setCollapsed] = useState(false);
@@ -27,6 +39,15 @@ export function AdminLayout() {
         return <AllSemestersList />;
       case "subjects":
         return <AllSubjectsList />;
+
+      /* ACADEMICS */
+      case "academic_sessions":
+        return <AllAcademicSessionsList />;
+      case "academic_semesters":
+        return <AllAcademicSemestersList />;
+      case "academic_subjects":
+        return <AllAcademicSubjectsList />;
+
       default:
         return null;
     }
@@ -97,6 +118,24 @@ export function AdminLayout() {
             {collapsed ? "Sub" : "Subjects"}
           </button>
 
+          {/* ACADEMICS GROUP */}
+          {!collapsed && (
+            <span className="text-xs uppercase opacity-60 px-3 pt-4">
+              Academics
+            </span>
+          )}
+
+          <button onClick={() => setActiveView("academic_sessions")} className={buttonClass("academic_sessions")}>
+            {collapsed ? "Sess" : "Academic Sessions"}
+          </button>
+
+          <button onClick={() => setActiveView("academic_semesters")} className={buttonClass("academic_semesters")}>
+            {collapsed ? "Sem" : "Academic Semesters"}
+          </button>
+
+          <button onClick={() => setActiveView("academic_subjects")} className={buttonClass("academic_subjects")}>
+            {collapsed ? "Sub" : "Academic Subjects"}
+          </button>
         </nav>
       </div>
 
