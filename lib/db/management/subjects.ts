@@ -44,7 +44,7 @@ function flattenSubject(row: any): Subjects {
 export async function GetAllSubjects(): Promise<Subjects[]> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.SUBJECTS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.SUBJECTS)
     .select(`
       *,
       degrees:swsm_degree_id (
@@ -72,7 +72,7 @@ export async function GetSemesterWiseSubjectsByDegree(
 ): Promise<Subjects[]> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.SUBJECTS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.SUBJECTS)
     .select(`
       *,
       degrees:swsm_degree_id (
@@ -101,7 +101,7 @@ export async function CreateSubjects(
 ): Promise<Subjects> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.SUBJECTS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.SUBJECTS)
     .insert([payload])
     .select(`
       *,
@@ -131,7 +131,7 @@ export async function UpdateSubjects(
 ): Promise<Subjects> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.SUBJECTS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.SUBJECTS)
     .update(payload)
     .eq("swsm_id", swsm_id)
     .select(`
@@ -159,7 +159,7 @@ export async function UpdateSubjects(
 export async function DeleteSubjects(swsm_id: string): Promise<void> {
   const { error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.SUBJECTS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.SUBJECTS)
     .delete()
     .eq("swsm_id", swsm_id);
 

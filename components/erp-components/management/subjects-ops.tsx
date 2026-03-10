@@ -7,13 +7,13 @@ import {
   UpdateSubjects,
   DeleteSubjects,
   CreateSubjects,
-} from "@/lib/db/subjects";
+} from "@/lib/db/management/subjects";
 
-import { GetAllDegreeDetails, Degree } from "@/lib/db/degrees";
+import { GetAllDegreeDetails, Degree } from "@/lib/db/management/degrees";
 import {
   GetAllDegreeWiseSemesterMappings,
   SemestersMapping,
-} from "@/lib/db/semesters";
+} from "@/lib/db/management/semesters";
 
 import {
   Pencil,

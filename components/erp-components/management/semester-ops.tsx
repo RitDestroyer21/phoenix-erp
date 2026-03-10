@@ -7,9 +7,9 @@ import {
   CreateDegreeWiseSemesterMapping,
   UpdateDegreeWiseSemesterMapping,
   DeleteDegreeWiseSemesterMapping,
-} from "@/lib/db/semesters";
+} from "@/lib/db/management/semesters";
 
-import { GetAllDegreeDetails, Degree } from "@/lib/db/degrees";
+import { GetAllDegreeDetails, Degree } from "@/lib/db/management/degrees";
 
 import { Pencil, Trash2, Plus, Check, X } from "lucide-react";
 

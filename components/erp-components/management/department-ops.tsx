@@ -7,7 +7,7 @@ import {
   DeleteDepartment,
   CreateDepartment,
   UpdateDepartment,
-} from "@/lib/db/departments";
+} from "@/lib/db/management/departments";
 import { Pencil, Trash2, Plus, Check, X } from "lucide-react";
 
 export function AllDepartmentsList() {

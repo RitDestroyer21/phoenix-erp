@@ -32,7 +32,7 @@ function flattenSemester(row: any): SemestersMapping {
 export async function GetAllDegreeWiseSemesterMappings(): Promise<SemestersMapping[]> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.SEMESTERS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.SEMESTERS)
     .select(`
       *,
       degrees:dwsm_degree_id (
@@ -57,7 +57,7 @@ export async function GetSemestersByDegree(
 ): Promise<SemestersMapping[]> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.SEMESTERS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.SEMESTERS)
     .select(`
       *,
       degrees:dwsm_degree_id (
@@ -86,7 +86,7 @@ export async function CreateDegreeWiseSemesterMapping(
 ): Promise<SemestersMapping> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.SEMESTERS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.SEMESTERS)
     .insert([payload])
     .select(`
       *,
@@ -118,7 +118,7 @@ export async function UpdateDegreeWiseSemesterMapping(
 ): Promise<SemestersMapping> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.SEMESTERS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.SEMESTERS)
     .update(payload)
     .eq("dwsm_id", dwsm_id)
     .select(`
@@ -145,7 +145,7 @@ export async function DeleteDegreeWiseSemesterMapping(
 ): Promise<void> {
   const { error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.SEMESTERS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.SEMESTERS)
     .delete()
     .eq("dwsm_id", dwsm_id);
 

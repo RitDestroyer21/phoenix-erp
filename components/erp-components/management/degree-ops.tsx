@@ -7,9 +7,9 @@ import {
   DeleteDegree,
   CreateDegree,
   UpdateDegree,
-} from "@/lib/db/degrees";
+} from "@/lib/db/management/degrees";
 
-import { GetAllDeptDetails, Department } from "@/lib/db/departments";
+import { GetAllDeptDetails, Department } from "@/lib/db/management/departments";
 
 import { Pencil, Trash2, Plus, Check, X } from "lucide-react";
 

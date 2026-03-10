@@ -17,7 +17,7 @@ const supabase = createClient();
 export async function GetAllDeptDetails(): Promise<Department[]> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.DEPARTMENTS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.DEPARTMENTS)
     .select("*")
     .order("dept_created_at", { ascending: true });
 
@@ -37,7 +37,7 @@ export async function CreateDepartment(
 ): Promise<Department> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.DEPARTMENTS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.DEPARTMENTS)
     .insert([{ dept_name }])
     .select()
     .single();
@@ -59,7 +59,7 @@ export async function UpdateDepartment(
 ): Promise<void> {
   const { error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.DEPARTMENTS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.DEPARTMENTS)
     .update({ dept_name })
     .eq("dept_id", dept_id);
 
@@ -77,7 +77,7 @@ export async function DeleteDepartment(
 ): Promise<void> {
   const { error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.DEPARTMENTS)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.DEPARTMENTS)
     .delete()
     .eq("dept_id", dept_id);
 

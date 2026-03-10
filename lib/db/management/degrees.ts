@@ -23,7 +23,7 @@ const supabase = createClient();
 export async function GetAllDegreeDetails(): Promise<Degree[]> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.DEGREE)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.DEGREE)
     .select(`
       *,
       departments:degree_dept_id (
@@ -55,7 +55,7 @@ export async function CreateDegree(payload: {
 }): Promise<Degree> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.DEGREE)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.DEGREE)
     .insert([payload])
     .select(`
       *,
@@ -82,7 +82,7 @@ export async function UpdateDegree(
 ): Promise<Degree> {
   const { data, error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.DEGREE)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.DEGREE)
     .update(payload)
     .eq("degree_id", degree_id)
     .select(`
@@ -107,7 +107,7 @@ export async function UpdateDegree(
 export async function DeleteDegree(degree_id: string): Promise<void> {
   const { error } = await supabase
     .schema(DatabaseTableNames.SCHEMA)
-    .from(DatabaseTableNames.TABLES.DEGREE)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.DEGREE)
     .delete()
     .eq("degree_id", degree_id);
 
