@@ -10,6 +10,7 @@ export const DatabaseTableNames = {
     ACADEMICS:{
       SESSIONS:'academic_sessions',
       SEMESTERS:'academic_session_semesters',
+      SUBJECTS:'academic_session_semester_subjects',
     }
   },
 } as const;

@@ -170,3 +170,34 @@ export async function DeleteSubjects(swsm_id: string): Promise<void> {
     throw new Error(error.message);
   }
 }
+/**
+ * Fetches management subjects filtered by category, elective set, semester, and degree.
+ * Used for populating the selection dropdown in the Academic Subject edit card.
+ */
+export async function GetSubjectsForElectiveSelection(
+  category: string,
+  set: string,
+  semesterId: string,
+  degreeId: string
+): Promise<Subjects[]> {
+  const { data, error } = await supabase
+    .schema(DatabaseTableNames.SCHEMA)
+    .from(DatabaseTableNames.TABLES.MANAGEMENT.SUBJECTS)
+    .select(`
+      *,
+      degrees:swsm_degree_id (degree_fullname),
+      semesters:swsm_semester_id (dwsm_semester_number)
+    `)
+    .eq("swsm_subject_category", category)
+    .eq("swsm_elective_set", set)
+    .eq("swsm_semester_id", semesterId)
+    .eq("swsm_degree_id", degreeId)
+    .order("swsm_subject_name", { ascending: true });
+
+  if (error) {
+    console.error("Fetch Elective Selection Error:", error);
+    throw new Error(error.message);
+  }
+
+  return (data ?? []).map(flattenSubject);
+}
