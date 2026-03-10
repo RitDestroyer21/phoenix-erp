@@ -24,6 +24,7 @@ export function AllDegreesList() {
   const [editingDegreeStream, setEditingDegreeStream] = useState("");
   const [editingDegreeLevel, setEditingDegreeLevel] = useState("");
   const [editingDegreeDept, setEditingDegreeDept] = useState("");
+  const [editingDegreeDuration, setEditingDegreeDuration] = useState<number>(0);
   const [editingDegreeSemesters, setEditingDegreeSemesters] = useState<number>(0);
   const [isDegreeAdding, setIsDegreeAdding] = useState(false);
 
@@ -51,6 +52,7 @@ export function AllDegreesList() {
     setEditingDegreeLevel("");
     setEditingDegreeDept("");
     setEditingDegreeSemesters(0);
+    setEditingDegreeDuration(0);
   }
 
   function isFormValid() {
@@ -60,7 +62,8 @@ export function AllDegreesList() {
       editingDegreeStream.trim() !== "" &&
       editingDegreeLevel.trim() !== "" &&
       editingDegreeDept !== "" &&
-      editingDegreeSemesters > 0
+      editingDegreeSemesters > 0 &&
+      editingDegreeDuration > 0
     );
   }
 
@@ -73,6 +76,7 @@ export function AllDegreesList() {
       degree_streamname: editingDegreeStream,
       degree_level: editingDegreeLevel,
       degree_dept_id: editingDegreeDept,
+      degree_duration: editingDegreeDuration,
       degree_semesters: editingDegreeSemesters,
     });
 
@@ -89,6 +93,7 @@ export function AllDegreesList() {
       degree_streamname: editingDegreeStream,
       degree_level: editingDegreeLevel,
       degree_dept_id: editingDegreeDept,
+      degree_duration: editingDegreeDuration,
       degree_semesters: editingDegreeSemesters,
     });
 
@@ -130,6 +135,7 @@ export function AllDegreesList() {
               <th className="p-4 text-left">Stream</th>
               <th className="p-4 text-left">Level</th>
               <th className="p-4 text-left">Department</th>
+              <th className="p-4 text-left">Duration</th>
               <th className="p-4 text-left">Semesters</th>
               <th className="p-4 text-left">Created</th>
               <th className="p-4 text-right">Actions</th>
@@ -189,6 +195,17 @@ export function AllDegreesList() {
                       </option>
                     ))}
                   </select>
+                </td>
+
+                <td className="p-4">
+                  <input
+                    type="number"
+                    value={editingDegreeDuration}
+                    onChange={(e) =>
+                      setEditingDegreeDuration(Number(e.target.value))
+                    }
+                    className="w-full border rounded px-2 py-1 bg-background"
+                  />
                 </td>
 
                 <td className="p-4">
@@ -275,6 +292,17 @@ export function AllDegreesList() {
                       ))}
                     </select>
                   </td>
+                  
+                  <td className="p-4">
+                    <input
+                      type="number"
+                      value={editingDegreeDuration}
+                      onChange={(e) =>
+                        setEditingDegreeDuration(Number(e.target.value))
+                      }
+                      className="w-full border rounded px-2 py-1 bg-background"
+                    />
+                  </td>
 
                   <td className="p-4">
                     <input
@@ -311,6 +339,7 @@ export function AllDegreesList() {
                   <td className="p-4">{degree.degree_streamname}</td>
                   <td className="p-4">{degree.degree_level}</td>
                   <td className="p-4">{degree.degree_dept_name}</td>
+                  <td className="p-4">{degree.degree_duration}</td>
                   <td className="p-4">{degree.degree_semesters}</td>
                   <td className="p-4 text-gray-500">
                     {new Date(degree.degree_created_at).toLocaleDateString()}
@@ -325,6 +354,7 @@ export function AllDegreesList() {
                         setEditingDegreeStream(degree.degree_streamname);
                         setEditingDegreeLevel(degree.degree_level);
                         setEditingDegreeDept(degree.degree_dept_id);
+                        setEditingDegreeDuration(degree.degree_duration);
                         setEditingDegreeSemesters(degree.degree_semesters);
                         setIsDegreeAdding(false);
                       }}

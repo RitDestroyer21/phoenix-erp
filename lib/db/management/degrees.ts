@@ -10,6 +10,7 @@ export interface Degree {
   degree_streamname: string;
   degree_dept_id: string;
   degree_level: string;
+  degree_duration: number;
   degree_semesters: number;
   degree_created_at: string;
   degree_dept_name: string;
@@ -51,6 +52,7 @@ export async function CreateDegree(payload: {
   degree_streamname: string;
   degree_level: string;
   degree_dept_id: string;
+  degree_duration: number;
   degree_semesters: number;
 }): Promise<Degree> {
   const { data, error } = await supabase
