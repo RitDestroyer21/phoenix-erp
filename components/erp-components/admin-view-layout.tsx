@@ -24,10 +24,17 @@ import { AllAcademicSubjectsList } from "@/components/erp-components/academics/s
 /* RESOURCES LIST */
 import { AllStudentsList } from "@/components/erp-components/resources/student/viewing/student";
 import { AllFacultyList } from "@/components/erp-components/resources/faculty/viewing/faculty";
+import { AllManagementList } from "@/components/erp-components/resources/management/viewing/management";
 
 /* ONBOARDING */
 import { StudentOnboardingWrapper } from "@/components/erp-components/resources/student/onboarding/wrapper";
 import { FacultyOnboardingWrapper } from "@/components/erp-components/resources/faculty/onboarding/wrapper";
+import { ManagementOnboardingWrapper } from "@/components/erp-components/resources/management/onboarding/wrapper";
+
+/* ONBOARDING */
+import { ManageWorkdays } from "@/components/erp-components/operations/manage-workdays";
+import { ManageHolidays } from "@/components/erp-components/operations/manage-holidays";
+
 
 export type AdminView =
   | "departments"
@@ -39,8 +46,12 @@ export type AdminView =
   | "academic_subjects"
   | "student_onboard"
   | "student_list"
+  | "management_onboard"
+  | "management_list"
   | "faculty_onboard"
-  | "faculty_list";
+  | "faculty_list"
+  | "holiday_list"
+  | "workday_list";
 
 interface NavigationItem {
   id: AdminView;
@@ -74,6 +85,7 @@ const NAVIGATION_SCHEMA: NavigationGroup[] = [
   {
     groupName: "Onboardings",
     items: [
+      { id: "management_onboard", label: "Management Onboard", collapsedLabel: "Mgm+" },
       { id: "faculty_onboard", label: "Faculty Onboard", collapsedLabel: "Fac+" },
       { id: "student_onboard", label: "Student Onboard", collapsedLabel: "Stu+" },
     ],
@@ -81,8 +93,16 @@ const NAVIGATION_SCHEMA: NavigationGroup[] = [
   {
     groupName: "Resources",
     items: [
+      { id: "management_list", label: "Management List", collapsedLabel: "ManLt" },
       { id: "faculty_list", label: "Faculty List", collapsedLabel: "FacLt" },
       { id: "student_list", label: "Student List", collapsedLabel: "StuLt" },
+    ],
+  },
+  {
+    groupName: "Operations",
+    items: [
+      { id: "holiday_list", label: "Manage Holidays", collapsedLabel: "Hol+" },
+      { id: "workday_list", label: "Manage Workdays", collapsedLabel: "Days" },
     ],
   },
 ];
@@ -102,8 +122,12 @@ export function AdminLayout() {
       case "academic_subjects": return <AllAcademicSubjectsList />;
       case "student_list": return <AllStudentsList />;
       case "faculty_list": return <AllFacultyList />;
+      case "management_list": return <AllManagementList />;      
       case "student_onboard": return <StudentOnboardingWrapper />; 
       case "faculty_onboard": return <FacultyOnboardingWrapper />; 
+      case "management_onboard": return <ManagementOnboardingWrapper />; 
+      case "holiday_list": return < ManageHolidays />;
+      case "workday_list": return < ManageWorkdays />;
       default: return null;
     }
   }

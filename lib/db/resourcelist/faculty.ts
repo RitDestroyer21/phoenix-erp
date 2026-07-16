@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'; // Adjust this to match yo
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { DatabaseTableNames } from "@/config/Databasenames";
 import { FacultyRecord } from "@/lib/interfaces";
+import { assignRoleToUserAdmin } from "@/lib/db/access-control-server"
 
 export interface FacultyOnboardPayload {
   firstName: string;
@@ -33,6 +34,7 @@ export async function onboardSingleFaculty(payload: FacultyOnboardPayload): Prom
   const { data: authUser, error: authError } = await supabaseAdmin.auth.admin.createUser({
     email: payload.mail1,
     password: defaultPassword,
+    email_confirm: true,
     user_metadata: {
       first_name: payload.firstName,
       last_name: payload.lastName,
@@ -91,8 +93,8 @@ export async function onboardSingleFaculty(payload: FacultyOnboardPayload): Prom
 
     if (basicUpdateError) throw basicUpdateError;
 
-    // Step 3d: Assign and create the functional Student Role pointer mapping
-    const { data: facultyRecord, error: studentError } = await supabaseAdmin
+    // Step 3d: Assign and create the functional faculty Role pointer mapping
+    const { data: facultyRecord, error: facultyError } = await supabaseAdmin
       .schema(DatabaseTableNames.SCHEMA)
       .from(DatabaseTableNames.TABLES.DIRECTORY.FACULTY)
       .insert({
@@ -103,7 +105,9 @@ export async function onboardSingleFaculty(payload: FacultyOnboardPayload): Prom
       .select('faculty_id')
       .single();
 
-    if (studentError) throw studentError;
+    if (facultyError) throw facultyError;
+    
+    await assignRoleToUserAdmin(newUserId,`INS`);
 
   } catch (dbTransactionError) {
     // Structural rollback fallback: Purge orphaned Auth reference if DB sequence crashes

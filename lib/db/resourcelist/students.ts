@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/client";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { DatabaseTableNames } from "@/config/Databasenames";
 import { StudentRecord } from "@/lib/interfaces";
+import {assignRoleToUserAdmin} from "@/lib/db/access-control-server"
 
 // Browser client specifically utilized for read operations (GetAllStudents)
 const supabase = createClient();
@@ -149,7 +150,7 @@ export async function onboardSingleStudent(payload: StudentOnboardPayload) {
   const { data: authUser, error: authError } = await supabaseAdmin.auth.admin.createUser({
     email: payload.mail1,
     password: tempPassword,
-    email_confirm: true, // Prevents validation lockouts
+    email_confirm: true,
     user_metadata: {
       first_name: payload.firstName,
       last_name: payload.lastName,
@@ -220,6 +221,8 @@ export async function onboardSingleStudent(payload: StudentOnboardPayload) {
       .single();
 
     if (studentError) throw studentError;
+    
+    await assignRoleToUserAdmin(generatedUserId,`STU`);
 
     return studentRecord;
 
